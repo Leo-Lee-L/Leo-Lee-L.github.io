@@ -1,26 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>22.5.6</title>
-    <url>/2022/05/06/22-5-6/</url>
-    <content><![CDATA[]]></content>
+    <title>22-4-26</title>
+    <url>/2022/04/26/22-4-26/</url>
+    <content><![CDATA[<p>在insmod和rmmod时候想用printk打印调试，但是无论怎么设置等级：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;8 4 1 7&quot;</span> &gt; /proc/sys/kernel/printk</span><br></pre></td></tr></table></figure>
+
+<p>也没用啊，查了半天发现printk这个打印无法出现在<strong>伪终端</strong>（如远程终端）上，只能你给linux开发板连显示器，然后就会显示，那我差点就放弃。最后在万能的**<a href="https://stackoverflow.com/questions/2170403/printk-showing-in-message-log-but-not-in-terminal-for-any-kernel-log-level">stackoverflow</a>**找到了勉强解决的方法，就是单独给printk一个terminal来让他只打印printk的log</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dmesg -wH &amp;</span><br></pre></td></tr></table></figure>
+
+<p>甚至还可以只打印单独的log类型，如下只打印<strong>KERN_EMERG</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dmesg -wH | grep ERR &amp;</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <tags>
+        <tag>embedded drivers</tag>
+      </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2022/05/06/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+    <title>Simple driver</title>
+    <url>/2022/05/06/22-4-27/</url>
+    <content><![CDATA[<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">MODULE_LICENSE</span>(<span class="string">&quot;GPL&quot;</span>)</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>一般是需要加在自己写的驱动后面的，因为Linux是开源精神的代表啦，你没写开源协议，把它放到社区里面别人一用就报错，就是因为没指名开源协议的话，内核就保护自己不被外人使用，而且自己编的module不写的话，有些功能也没法完成，所以好习惯还是末尾写一个。</p>
+<p><img src="/.com//kernel_taint.png" alt="kernel_taint"></p>
+<hr>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">read</span>();  #在内核和用户层之间交换<span class="function">bytes</span></span><br><span class="line"><span class="function"><span class="title">write</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>其返回值如果与被传输的bytes计数相同，则传输无遗漏，可以用此debug</p>
+<hr>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ls</span> -l/dev</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>每个设备都有两个数字来表征其身份：<strong>major number</strong>和<strong>minor number</strong></p>
+<p>eg：一个内核有UART0,UART1两个串口驱动，那么<strong>major</strong>用于区分UART与LED等设备，而<strong>minor</strong>用于区分UART的0和1。</p>
+<hr>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mknod</span> /dev/mydev c 202 0 /* create mydev under /dev */</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>一般注册一个module的话都会需要手动 <strong>mknod</strong> 一下，以便引出他的Device node,不过<strong>Maintain a devtmpfs filesystem to mount at &#x2F;dev</strong>在menuconfig 之后，一旦sysfs文件系统被挂载到&#x2F;sys，注册的驱动程序就可以在用户层拿到，并且也例化了 Device node.真的很方便</p>
+<hr>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">miscellaneous devices</span><br></pre></td></tr></table></figure>
+
+<p>上面说过用来区分注册的驱动身份方法是<strong>major</strong>和<strong>minor</strong>大小两个number。但是有的驱动没法分成大类——<strong>major</strong>，或者没必要，Linux kernel 也考虑到了这部分强迫症的要求，设了一个major是10的misc类，可以只赋给他minor号就好。</p>
+<hr>
+<p>上面介绍的有<strong>char</strong>,<strong>misc</strong>类型的驱动，下面介绍的是<strong>platform bus</strong>类型的驱动，他可以与Device Tree相配合，这样一来，注册的驱动可以枚举地稳定地展现。而且这种驱动提供了**probe()<strong>和</strong>remove()**方法，支持电源管理和关机提示。</p>
+<ul>
+<li><strong>probe()</strong>:用于初始化设备，并将其注册到正确的内核框架(eg: network,misc,serial,input)中。</li>
+<li>**suspend()&#x2F;resume()**支持低耗电的电源管理</li>
+</ul>
+<hr>
+<p>现在想知道的是，我们的device是如何与driver bind在一起的，这里可以看到我们的<strong>module函数</strong>里面有</p>
+<p><img src="/.com//22-4-27/bind.png"></p>
+<p>而我们的Device Tree有对应的</p>
+<p><img src="/.com//22-4-27/dt_bind.png" alt="dt_bind"></p>
+<p>这样就对应上了</p>
 ]]></content>
+      <categories>
+        <category>embedded drivers</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>22-4-28</title>
+    <url>/2022/05/06/22-4-28/</url>
+    <content><![CDATA[<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">FATAL TypeError: Object.fromEntries is not a <span class="keyword">function</span></span><br></pre></td></tr></table></figure>
+
+<p>安装hexo初次 <code>hexo g</code>报错，一查</p>
+<p>更新到node@14就可以了，前端的依赖是个问题。</p>
+<hr>
+<p><img src="/.com//22-5-6/curl_required.png" alt="curl_required"></p>
+<p>最近喜欢用docker管理环境，这里他说需要<code>curl</code>，找了半天论坛，原来装个<code>curl</code>就可以了</p>
+]]></content>
+      <tags>
+        <tag>fixbugs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>22-5-6</title>
+    <url>/2022/05/06/22-5-6/</url>
+    <content><![CDATA[]]></content>
   </entry>
 </search>
