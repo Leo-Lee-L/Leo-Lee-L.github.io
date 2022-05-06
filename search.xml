@@ -6,7 +6,7 @@
     <content><![CDATA[<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">MODULE_LICENSE</span>(<span class="string">&quot;GPL&quot;</span>)</span><br></pre></td></tr></table></figure>
 
 <p>一般是需要加在自己写的驱动后面的，因为Linux是开源精神的代表啦，你没写开源协议，把它放到社区里面别人一用就报错，就是因为没指名开源协议的话，内核就保护自己不被外人使用，而且自己编的module不写的话，有些功能也没法完成，所以好习惯还是末尾写一个。</p>
-<p><img src="/../images/kernel_taint.png"></p>
+<p><img src="/./images/kernel_taint.png"></p>
 <hr>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">read</span>();  #在内核和用户层之间交换<span class="function">bytes</span></span><br><span class="line"><span class="function"><span class="title">write</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
 
@@ -32,9 +32,9 @@
 </ul>
 <hr>
 <p>现在想知道的是，我们的device是如何与driver bind在一起的，这里可以看到我们的<strong>module函数</strong>里面有</p>
-<p><img src="/../images/bind.png"></p>
+<p><img src="/./images/bind.png"></p>
 <p>而我们的Device Tree有对应的</p>
-<p><img src="/../images/dt_bind.png"></p>
+<p><img src="/./images/dt_bind.png"></p>
 <p>这样就对应上了</p>
 ]]></content>
       <categories>
