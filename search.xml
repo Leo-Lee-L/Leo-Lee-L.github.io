@@ -32,9 +32,10 @@
 </ul>
 <hr>
 <p>现在想知道的是，我们的device是如何与driver bind在一起的，这里可以看到我们的<strong>module函数</strong>里面有</p>
-<p><img src="/./images/bind.png"></p>
+
+
 <p>而我们的Device Tree有对应的</p>
-<p><img src="/2022/05/06/simple-drivers/05/06/simple-drivers/dt_bind.png"></p>
+<p><img src="/../images/dt_bind.png"></p>
 <p>这样就对应上了</p>
 ]]></content>
       <categories>
