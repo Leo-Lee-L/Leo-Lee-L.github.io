@@ -19,12 +19,30 @@
       </tags>
   </entry>
   <entry>
+    <title>22-4-28</title>
+    <url>/2022/05/06/22-4-28/</url>
+    <content><![CDATA[<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">FATAL TypeError: Object.fromEntries is not a <span class="keyword">function</span></span><br></pre></td></tr></table></figure>
+
+<p>安装hexo初次 <code>hexo g</code>报错，一查</p>
+<p>更新到node@14就可以了，前端的依赖是个问题。</p>
+<hr>
+<p><img src="/.com//05/06/22-5-6/curl_required.png" alt="curl_required"></p>
+<p>最近喜欢用docker管理环境，这里他说需要<code>curl</code>，找了半天论坛，原来装个<code>curl</code>就可以了</p>
+]]></content>
+      <tags>
+        <tag>fixbugs</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Simple driver</title>
     <url>/2022/05/06/22-4-27/</url>
     <content><![CDATA[<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">MODULE_LICENSE</span>(<span class="string">&quot;GPL&quot;</span>)</span><br></pre></td></tr></table></figure>
 
 <p>一般是需要加在自己写的驱动后面的，因为Linux是开源精神的代表啦，你没写开源协议，把它放到社区里面别人一用就报错，就是因为没指名开源协议的话，内核就保护自己不被外人使用，而且自己编的module不写的话，有些功能也没法完成，所以好习惯还是末尾写一个。</p>
-<p><img src="/.com//kernel_taint.png" alt="kernel_taint"></p>
+<p><img src="/.com//05/06/22-4-27/kernel_taint.png"></p>
+<img src="/.com//05/06/22-4-27/kernel_taint.png" class title="这是一张图片">
+
+
 <hr>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">read</span>();  #在内核和用户层之间交换<span class="function">bytes</span></span><br><span class="line"><span class="function"><span class="title">write</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
 
@@ -50,29 +68,14 @@
 </ul>
 <hr>
 <p>现在想知道的是，我们的device是如何与driver bind在一起的，这里可以看到我们的<strong>module函数</strong>里面有</p>
-<p><img src="/.com//22-4-27/bind.png"></p>
+<p><img src="/.com//05/06/22-4-27/bind.png"></p>
 <p>而我们的Device Tree有对应的</p>
-<p><img src="/.com//22-4-27/dt_bind.png" alt="dt_bind"></p>
+<p><img src="/.com//05/06/22-4-27/dt_bind.png"></p>
 <p>这样就对应上了</p>
 ]]></content>
       <categories>
         <category>embedded drivers</category>
       </categories>
-  </entry>
-  <entry>
-    <title>22-4-28</title>
-    <url>/2022/05/06/22-4-28/</url>
-    <content><![CDATA[<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">FATAL TypeError: Object.fromEntries is not a <span class="keyword">function</span></span><br></pre></td></tr></table></figure>
-
-<p>安装hexo初次 <code>hexo g</code>报错，一查</p>
-<p>更新到node@14就可以了，前端的依赖是个问题。</p>
-<hr>
-<p><img src="/.com//22-5-6/curl_required.png" alt="curl_required"></p>
-<p>最近喜欢用docker管理环境，这里他说需要<code>curl</code>，找了半天论坛，原来装个<code>curl</code>就可以了</p>
-]]></content>
-      <tags>
-        <tag>fixbugs</tag>
-      </tags>
   </entry>
   <entry>
     <title>22-5-6</title>
