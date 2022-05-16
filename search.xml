@@ -41,4 +41,14 @@
         <tag>embedded drivers</tag>
       </tags>
   </entry>
+  <entry>
+    <title>一些常用的指令</title>
+    <url>/2022/05/16/tools/</url>
+    <content><![CDATA[<h3 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">KERNEL=kernel7l</span><br><span class="line">sudo make -j4 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage modules dtbs</span><br><span class="line">scp <span class="built_in">arch</span>/arm/boot/zImage root@192.168.0.32:/boot/kernel7l.img</span><br><span class="line">scp <span class="built_in">arch</span>/arm/boot/dts/bcm2711-rpi-4-b.dtb root@192.168.0.32:/boot/</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>tools</tag>
+      </tags>
+  </entry>
 </search>
