@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Input Subsystem Framework for Device Drivers</title>
+    <url>/2022/05/17/Input-framework/</url>
+    <content><![CDATA[<p>许多设备树没有直接被当做char类型驱动来执行，他们在一个框架下被实现，具体到一个给定的设备类型。框架为相同类型的设备抽取出驱动同样的部分，减少代码的重复工作。</p>
+<p>框架可以提供连续的用户区接口给每个设备类型，不用考虑驱动。这个应用仍然可以作为char类型驱动被看到。例如，linux提供了 socket api 的网络框架，用户可以用任何网络驱动链接到一个网络而不需要知道网络驱动的细节。</p>
+<p>通过本章，你将会了解输入子系统框架的细节。将会开发几个内盒模型帮助你理解使用本框架来开发想同类型的设备。</p>
+<p>下图展示了带框架的驱动接口如何裸露出硬件给用户层和BUS基础设施，一个与硬件通信的模型结构。</p>
+<h4 id="Input-Subsystem-Drivers"><a href="#Input-Subsystem-Drivers" class="headerlink" title="Input Subsystem Drivers"></a>Input Subsystem Drivers</h4><p>输入子系统接管所有来自用户的输入事件。输入设备驱动会捕捉硬件的事件信息用一种规矩的形式然后报告给核心层，之后核心层排序数据，升高到适合的事件处理驱动，最后通过事件层传递信息给用户层，应用程序用”<em>&#x2F;dev</em>“设备节点可以得到事件信息。</p>
+<p>当被设计来支持USB HID 设备时，输入子系统很快的成长到解决各种输入(无论是不是USB)：键盘，鼠标，触摸屏等。</p>
+<p>输入子系统被分成两个部分：</p>
+<p>1.设备驱动：他们和硬件沟通，提供事件(加速器的动作，触摸屏的反应)给输入核心。</p>
+<p>2.事件管理员：输入事件驱动的到来自设备驱动的事件，传递他们到用户控件和内核消费者和各种被需要的接口。“<em>evdev</em>”驱动是一个LINUX内核的通用输入事件接口。它生成了一串输入事件从设备驱动并且通过”<em>char</em>“设备在”&#x2F;dev&#x2F;inpu&#x2F;“路径可以获得。事件接口将会展示每个输入设备作为 “&#x2F;dev&#x2F;input&#x2F;event”。所有客户都可以使用，这种接口更适合消费用户的输入。</p>
+<p>你能使用阻塞或非阻塞阅读，也可以*select()*在”&#x2F;dev&#x2F;input&#x2F;eventX”设备，你将会得到一整个数据的输入。</p>
+<p>数据输入非常有用的应用测试是evtest，这个应用展示了输入设备信息，体现在命令行上，包括所有的被设备的事件支持。他之后监视了设备和屏幕上所有事件层的生成的事件。</p>
+<p>下图可以看到，输入子系统图标可以用作下一个内核模型实验的例子，你将会控制一个I2C加速器用输入子系统。</p>
+<h4 id="“input-subsystem-accelerometer-“Module"><a href="#“input-subsystem-accelerometer-“Module" class="headerlink" title="“input subsystem accelerometer “Module"></a>“input subsystem accelerometer “Module</h4><p>在这个内核模块，你将会控制一个倾斜的加速器板子连接到处理器的I2C总线，已能用ADXL345开发驱动。你的驱动会定期扫描加速度器轴的值，依靠板子的倾斜会生成裸露给”evtest”的事件。</p>
+<p>在这个加速度器内核模块，你将要用”polled input”子类，<em>polled input</em> 设备提供支持简单的输入设备的骨架，没有终端也没有定时的扫描或轮训检测状态的改变。</p>
+<p>加速器驱动会支持EV_KEY 类型事件，有一个KEY事件会设置成0或1,取决于板子的倾斜，”set_bit()” 调用是一个原子操作，允许设置一个字节到1.</p>
+<p>“input polled” 结构体将会被poll() 回调函数处理。这个函数毁掉设备他送给输入事件。poll_interval 将会设置成50ms，在poll()函数内部。事件被驱动发送给事件管理者，用”input_event()” 函数。</p>
+<p>注册完事件后，输入内核必须用函数来通知。</p>
+<p>驱动主要的代码部分还是用三个种类被描述：设备树，输入框架用于I2C接口，输入框加作为输入设备。</p>
+]]></content>
+      <tags>
+        <tag>handbook</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一些常用的指令</title>
+    <url>/2022/05/16/tools/</url>
+    <content><![CDATA[<h3 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">KERNEL=kernel7l</span><br><span class="line">sudo make -j4 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage modules dtbs</span><br><span class="line">scp <span class="built_in">arch</span>/arm/boot/zImage root@192.168.0.32:/boot/kernel7l.img</span><br><span class="line">scp <span class="built_in">arch</span>/arm/boot/dts/bcm2711-rpi-4-b.dtb root@192.168.0.32:/boot/</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>tools</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>simple_drivers</title>
     <url>/2022/05/12/simple-drivers/</url>
     <content><![CDATA[<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">MODULE_LICENSE</span>(<span class="string">&quot;GPL&quot;</span>)</span><br></pre></td></tr></table></figure>
@@ -39,16 +75,6 @@
 ]]></content>
       <tags>
         <tag>embedded drivers</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一些常用的指令</title>
-    <url>/2022/05/16/tools/</url>
-    <content><![CDATA[<h3 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">KERNEL=kernel7l</span><br><span class="line">sudo make -j4 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage modules dtbs</span><br><span class="line">scp <span class="built_in">arch</span>/arm/boot/zImage root@192.168.0.32:/boot/kernel7l.img</span><br><span class="line">scp <span class="built_in">arch</span>/arm/boot/dts/bcm2711-rpi-4-b.dtb root@192.168.0.32:/boot/</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>tools</tag>
       </tags>
   </entry>
 </search>
