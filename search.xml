@@ -27,27 +27,6 @@
       </tags>
   </entry>
   <entry>
-    <title>php入门【1】</title>
-    <url>/2022/05/18/phplearning/</url>
-    <content><![CDATA[<h3 id="5-18"><a href="#5-18" class="headerlink" title="5-18"></a>5-18</h3><p>PHP的菜鸟教程基本都看完了，可以得到最炫酷的结果是…</p>
-<p><img src="https://raw.githubusercontent.com/Leo-Lee-L/picture_bed/main/image-20220518160707937.png" alt="image-20220518160707937"><img src="https://raw.githubusercontent.com/Leo-Lee-L/picture_bed/main/image-20220518160821997.png" alt="image-20220518160821997"></p>
-<p>TODO：<a href="https://www.runoob.com/php/php-mysql-connect.html">https://www.runoob.com/php/php-mysql-connect.html</a></p>
-]]></content>
-      <tags>
-        <tag>php</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一些常用的指令</title>
-    <url>/2022/05/16/tools/</url>
-    <content><![CDATA[<h3 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">KERNEL=kernel7l</span><br><span class="line">sudo make -j4 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage modules dtbs</span><br><span class="line">scp <span class="built_in">arch</span>/arm/boot/zImage root@192.168.0.32:/boot/kernel7l.img</span><br><span class="line">scp <span class="built_in">arch</span>/arm/boot/dts/bcm2711-rpi-4-b.dtb root@192.168.0.32:/boot/</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>tools</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>simple_drivers</title>
     <url>/2022/05/12/simple-drivers/</url>
     <content><![CDATA[<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">MODULE_LICENSE</span>(<span class="string">&quot;GPL&quot;</span>)</span><br></pre></td></tr></table></figure>
@@ -86,6 +65,27 @@
 ]]></content>
       <tags>
         <tag>embedded drivers</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php入门【1】</title>
+    <url>/2022/05/18/phplearning/</url>
+    <content><![CDATA[<h3 id="5-18"><a href="#5-18" class="headerlink" title="5-18"></a>5-18</h3><p>PHP的菜鸟教程基本都看完了，可以得到最炫酷的结果是…</p>
+<p><img src="https://raw.githubusercontent.com/Leo-Lee-L/picture_bed/main/image-20220518160707937.png" alt="image-20220518160707937"><img src="https://raw.githubusercontent.com/Leo-Lee-L/picture_bed/main/image-20220518160821997.png" alt="image-20220518160821997"></p>
+<p>TODO：<a href="https://www.runoob.com/php/php-mysql-connect.html">https://www.runoob.com/php/php-mysql-connect.html</a></p>
+]]></content>
+      <tags>
+        <tag>php</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一些常用的指令</title>
+    <url>/2022/05/16/tools/</url>
+    <content><![CDATA[<h3 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">KERNEL=kernel7l</span><br><span class="line">sudo make -j4 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage modules dtbs</span><br><span class="line">scp <span class="built_in">arch</span>/arm/boot/zImage root@192.168.0.32:/boot/kernel7l.img</span><br><span class="line">scp <span class="built_in">arch</span>/arm/boot/dts/bcm2711-rpi-4-b.dtb root@192.168.0.32:/boot/</span><br></pre></td></tr></table></figure>
+<h3 id="树莓派的管脚定义"><a href="#树莓派的管脚定义" class="headerlink" title="树莓派的管脚定义"></a>树莓派的管脚定义</h3><p><img src="https://raw.githubusercontent.com/Leo-Lee-L/picture_bed/main/GPIO.png" alt="GPIO"></p>
+]]></content>
+      <tags>
+        <tag>tools</tag>
       </tags>
   </entry>
 </search>
