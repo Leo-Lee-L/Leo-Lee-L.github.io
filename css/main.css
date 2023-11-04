@@ -1168,7 +1168,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #da5e49;
+  background: #ffc7ff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2540,9 +2540,12 @@ ul.breadcrumb li + li:last-child {
   padding: 0;
 }
 .content-wrap {
-  background: initial;
-  box-shadow: initial;
-  padding: initial;
+  background: url("/images/asuka.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  opacity: 0.4;
 }
 .post-block {
   background: var(--content-bg-color);
